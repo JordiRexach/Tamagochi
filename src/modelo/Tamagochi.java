@@ -7,8 +7,7 @@ public class Tamagochi {
 	public void comer() {
 		if (estaHambrienta){
 			nivelFelicidad += 1;
-		}
-		
+		}		
 	}
 
 	public boolean estaContenta() {		
