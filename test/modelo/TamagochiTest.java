@@ -38,4 +38,28 @@ public class TamagochiTest {
 		mascota.comer();
 		Assert.assertTrue("La mascota se pone feliz", !mascota.estaContenta());
 	}
+	
+	@Test
+	public void jugar_LaMascotaEstaContentaYSubeDosNiveles() {
+		Tamagochi mascota = new Tamagochi();
+		mascota.setEstaHambrienta(false);
+		mascota.setNivelFelicidad(1);
+		mascota.jugar();
+		Assert.assertTrue("La mascota no sube dos niveles de felicidad", mascota.getNivelFelicidad() > 1);
+	}
+	
+	@Test
+	public void jugar_LaMascotaEstaDeMalHUmorYSePoneContenta() {
+		Tamagochi mascota = new Tamagochi();
+		mascota.setEstaHambrienta(false);
+		mascota.jugar();
+		Assert.assertTrue("La mascota no esta contenta", mascota.estaContenta());
+	}
+	
+	@Test
+	public void jugar_LaMascotaEstaHambrientaYSePoneDeMalHumor() {
+		Tamagochi mascota = new Tamagochi();
+		mascota.jugar();
+		Assert.assertTrue("La mascota no se pone de mal humor", !mascota.estaContenta());
+	}
 }

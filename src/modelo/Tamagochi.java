@@ -13,6 +13,10 @@ public class Tamagochi {
 		return nivelFelicidad;
 	}
 	
+	public void setNivelFelicidad(int nivelFelicidad) {
+		this.nivelFelicidad = nivelFelicidad;
+	}
+	
 	public int getTiempoDeMalHumor() {
 		return tiempoDeMalHumor;
 	}
@@ -35,8 +39,20 @@ public class Tamagochi {
 		return nivelFelicidad > 0;
 	}
 	
-	public void estaHambrienta() {
-		estaHambrienta = true;
+	public void jugar() {
+		if (!estaHambrienta) {
+			if(estaContenta()) {
+				nivelFelicidad += 2;
+			}
+			
+			else {
+				nivelFelicidad = 1;
+			}
+		}
+		
+		else {
+			nivelFelicidad = 0;
+		}
 	}
 
 }
