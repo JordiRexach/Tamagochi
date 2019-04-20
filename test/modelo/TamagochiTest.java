@@ -1,65 +1,85 @@
 package modelo;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.stream.IntStream;
+
+import org.junit.jupiter.api.Test;
+
 import junit.framework.Assert;
-import org.junit.Test;
 
 @SuppressWarnings("deprecation")
-public class TamagochiTest {
-	
+class TamagochiTest {
+
 	@Test
-	public void comer_LaMascotaHambrientaComeYSePoneFeliz(){
+	void comer_mascotaHambrientaYSePoneContenta() {
 		Tamagochi mascota = new Tamagochi();
 		mascota.comer();
-		Assert.assertTrue("La mascota no esta contenta", mascota.estaContenta());
+		Assert.assertTrue("Mascota no esta feliz", mascota.estaContenta());
 	}
 	
 	@Test
-	public void comer_LaMascotaEstaFelizYSubeUnNivel(){
+	void comer_mascotaPasaAContentaYSuNivelIncrementaUnaUnidad() {
 		Tamagochi mascota = new Tamagochi();
-		int nivelAnterior = mascota.getNivelFelicidad();
+		int nivelAnterior = mascota.getNivel();
 		mascota.comer();
-		Assert.assertTrue("La mascota no sube un nivel de felicidad", mascota.getNivelFelicidad() > nivelAnterior);
-	}
+		Assert.assertTrue("Mascota no subio de nivel", mascota.getNivel() > nivelAnterior);		
+	} 
+
+	@Test
+	void comer_mascotaEstaDeMalHumorMasDe80MinYPasaAContenta() {
+		Tamagochi mascota = new Tamagochi();
+		int tiempoMalHumor = 81;
+		mascota.sePoneDeMalHumor(tiempoMalHumor);
+		mascota.comer();
+		Assert.assertTrue("Mascota no esta contenta", mascota.estaContenta());		
+	} 
+
+	@Test
+	void comer_mascotaEstaDeMalHumorMenosOIgualA80MinYNoPasaAContenta() {
+		Tamagochi mascota = new Tamagochi();
+		int tiempoMalHumor = 80;
+		mascota.sePoneDeMalHumor(tiempoMalHumor);
+		mascota.comer();
+		Assert.assertFalse("Mascota esta contenta", mascota.estaContenta());		
+	} 
 	
 	@Test
-	public void comer_LaMascotaEstaDeMalHumorYSePoneFeliz() {
+	void jugar_MascotaContentaIncrementaNivelDosUnidades() {
 		Tamagochi mascota = new Tamagochi();
-		mascota.setTiempoDeMalHumor(85);
-		mascota.setEstaHambrienta(false);
-		mascota.comer();
-		Assert.assertTrue("La mascota no se pone feliz", mascota.estaContenta());
-	}
-	
-	@Test
-	public void comer_LaMascotaEstaDeMalHumorYNoSePoneFeliz() {
-		Tamagochi mascota = new Tamagochi();
-		mascota.setTiempoDeMalHumor(40);
-		mascota.setEstaHambrienta(false);
-		mascota.comer();
-		Assert.assertTrue("La mascota se pone feliz", !mascota.estaContenta());
-	}
-	
-	@Test
-	public void jugar_LaMascotaEstaContentaYSubeDosNiveles() {
-		Tamagochi mascota = new Tamagochi();
-		mascota.setEstaHambrienta(false);
-		mascota.setNivelFelicidad(1);
+		int nivelAnterior;
+		mascota.sePoneContenta();
+		nivelAnterior = mascota.getNivel();
+		//System.out.println(mascota.getNivel());
 		mascota.jugar();
-		Assert.assertTrue("La mascota no sube dos niveles de felicidad", mascota.getNivelFelicidad() > 1);
+		//System.out.println(mascota.getNivel()  - nivelAnterior);
+		Assert.assertTrue("Nivel no incrementó 2 Unidades", (mascota.getNivel()  - nivelAnterior) == 2);
+	}
+
+	@Test
+	void jugar_MascotaContentaJuega5VecesYSePoneHambrienta() {
+		Tamagochi mascota = new Tamagochi();
+		mascota.sePoneContenta();
+		//Juega 5 veces
+		IntStream.rangeClosed(1, 5).forEach(i -> mascota.jugar());
+		//Si juega 5 veces su nivel incrementa por dos por cada vez que juega
+		//System.out.println(mascota.getNivel());
+		Assert.assertTrue("Mascota no esta hambrienta", mascota.estaHambrienta());
 	}
 	
 	@Test
-	public void jugar_LaMascotaEstaDeMalHUmorYSePoneContenta() {
+	void jugar_MascotaMalHumorSePoneContenta() {
 		Tamagochi mascota = new Tamagochi();
-		mascota.setEstaHambrienta(false);
+		mascota.sePoneDeMalHumor(1);
 		mascota.jugar();
-		Assert.assertTrue("La mascota no esta contenta", mascota.estaContenta());
+		Assert.assertTrue("Mascota no esta contenta", mascota.estaContenta());
 	}
-	
+
 	@Test
-	public void jugar_LaMascotaEstaHambrientaYSePoneDeMalHumor() {
+	void jugar_MascotaHambrientarSePoneMalHumor() {
 		Tamagochi mascota = new Tamagochi();
+		//Ya lo inicializo en hambrienta
 		mascota.jugar();
-		Assert.assertTrue("La mascota no se pone de mal humor", !mascota.estaContenta());
+		Assert.assertTrue("Mascota no esta de mal humor", mascota.estaDeMalHumor());
 	}
 }
